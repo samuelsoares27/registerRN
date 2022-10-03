@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  Button
+  Button,
+  Switch
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
@@ -18,10 +19,12 @@ export default class App extends Component {
       nome: '',
       idade: '',
       sexo: 0,
-      listaSexo: ['Masculino', 'Feminino', 'Outros'],
+      listaSexo: ['Selecione', 'Masculino', 'Feminino', 'Outros'],
       limite: 0,
       estudante: true
     }
+
+    this.Cadastrar = this.Cadastrar.bind(this);
   }
 
   Cadastrar() {
@@ -47,9 +50,9 @@ export default class App extends Component {
       `
         nome: ${this.state.nome} \n
         idade: ${this.state.idade} \n
-        sexo: ${this.state.listaSexo[sexo]} \n
+        sexo: ${this.state.listaSexo[this.state.sexo]} \n
         nome: ${this.state.limite} \n
-        estudante: ${this.state.estudante} \n
+        estudante: ${this.state.estudante ? 'Sim' : 'Não'} \n
       `
     alert(cadastro);
   }
@@ -80,7 +83,7 @@ export default class App extends Component {
           <Picker
             style={styles.picker}
             selectedValue={this.state.sexo}
-            onValueChange={(itemValue, itemIndex) => this.setState({ pizza: itemValue })}
+            onValueChange={(itemValue, itemIndex) => this.setState({ sexo: itemValue })}
           >
             {
               this.state.listaSexo.map((value, key) => {
@@ -102,6 +105,31 @@ export default class App extends Component {
           <Text style={styles.textoSlider}>
             Limite {this.state.limite.toFixed(2)}
           </Text>
+
+          <View style={styles.viewSwitch}>
+
+
+            <Text style={styles.switch}>
+              Estudante:
+            </Text>
+
+            <View style={styles.switchEText}>
+              <Switch
+                style={styles.switch}
+                onValueChange={(value) => this.setState({ estudante: value })}
+                value={this.state.estudante}
+              />
+
+              <Text style={styles.textSwitch}>
+                {
+                  this.state.estudante ?
+                    'Sim'
+                    :
+                    'Não'
+                }
+              </Text>
+            </View>
+          </View>
 
           <View style={styles.button}>
             <Button
@@ -153,6 +181,24 @@ const styles = StyleSheet.create({
     marginTop: 150,
     alignContent: 'flex-end',
     padding: 5
+  },
+  switch: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  textSwitch: {
+    fontSize: 20,
+  },
+  viewSwitch: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+    marginTop: 20
+  },
+  switchEText: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 
 })
